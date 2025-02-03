@@ -1,15 +1,8 @@
 import { Module } from "@nestjs/common";
 import { SequelizeModule } from "@nestjs/sequelize";
 import { ConfigModule } from "@nestjs/config";
-import { UsersModule } from './users/users.module';
-import { SliderModule } from './slider/slider.module';
-import { BooksModule } from './books/books.module';
-import { SourcesModule } from './sources/sources.module';
-import { DistrictModule } from './district/district.module';
-import { RolesModule } from './roles/roles.module';
-import { RequestsModule } from './requests/requests.module';
-import { FilesModule } from './files/files.module';
-
+import { BooksModule } from "./books/books.module";
+import { Book } from "./books/books.model";
 
 @Module({
     controllers: [],
@@ -25,16 +18,12 @@ import { FilesModule } from './files/files.module';
             username: process.env.POSTGRES_USER,
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
-            models: [], // Сюда пишутся модели
-            autoLoadModels: true
+            models: [Book], // Сюда пишутся модели
+            autoLoadModels: true,
+            synchronize: true,
           }),
-        SliderModule,
+        SequelizeModule.forFeature([Book]),
         BooksModule,
-        SourcesModule,
-        DistrictModule,
-        RolesModule,
-        RequestsModule,
-        FilesModule,
     ]
 })
 export class AppModule {}
