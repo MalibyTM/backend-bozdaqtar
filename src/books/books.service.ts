@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Book } from './books.model';
 import { CreateBookDto } from './dto/books.dto';
@@ -8,10 +8,22 @@ export class BooksService {
     constructor(@InjectModel(Book) private bookRepository: typeof Book) {}
 
     async createBook(dto: CreateBookDto){
-        const book = await this.bookRepository.create(dto)
-        return book;
+        try {
+            const parsedAuthor = JSON.parse(dto.author);
+            const parsedContent = JSON.parse(dto.content);
+            
+            const book = await this.bookRepository.create({
+                ...dto,
+                author: parsedAuthor,
+                content: parsedContent,
+            });
+            return book;
+        } catch(error) {
+            throw new InternalServerErrorException("Ошибка при создании книги");
+        }
     }
 
+    
     async getAllBooks(){
         const book = await this.bookRepository.findAll();
         return book;

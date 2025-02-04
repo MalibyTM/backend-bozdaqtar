@@ -3,6 +3,7 @@ import { SequelizeModule } from "@nestjs/sequelize";
 import { ConfigModule } from "@nestjs/config";
 import { BooksModule } from "./books/books.module";
 import { Book } from "./books/books.model";
+import { SliderModule } from "./slider/slider.module";
 
 @Module({
     controllers: [],
@@ -24,6 +25,7 @@ import { Book } from "./books/books.model";
           }),
         SequelizeModule.forFeature([Book]),
         BooksModule,
+        SliderModule,
     ]
 })
 export class AppModule {}
