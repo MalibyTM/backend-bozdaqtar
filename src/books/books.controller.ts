@@ -38,7 +38,7 @@ export class BooksController {
         @UploadedFile() file: Express.Multer.File,
         @Body() dto: CreateBookDto
     ) {
-        console.log('Received Data:', dto); // 🔍 Проверяем входные данные
+        console.log('Received Data:', dto);
     
         try {
             const parsedAuthor = JSON.parse(dto.author);
